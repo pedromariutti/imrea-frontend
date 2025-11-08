@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect } from 'react';
 import {
   BrowserRouter,
@@ -14,7 +12,7 @@ import {
 // --- CONFIGURAÇÃO DA API ---
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080/imrea-api'; // <-- CORRIGIDO: /imrea-api foi re-adicionado
 
-// --- INTERFACES 
+// --- INTERFACES ---
 interface ICuidador {
   idCuidador: number;
   nome: string;
@@ -49,7 +47,7 @@ interface IConsulta {
 type ConsultaFormTO = Omit<IConsulta, 'idConsulta' | 'paciente'>;
 
 
-// --- COMPONENTE PRINCIPAL ---
+// --- COMPONENTE PRINCIPAL  ---
 
 export default function App() {
   return (
@@ -77,11 +75,11 @@ export default function App() {
   );
 }
 
-// --- COMPONENTES DE LAYOUT ---
+// --- COMPONENTES DE LAYOUT E UTILS ---
 
 const Layout: React.FC = () => {
   return (
-    <div className="flex flex-col min-h-screen font-sans bg-light text-dark">
+    <div className="flex flex-col min-h-screen font-sans bg-gray-100 text-gray-900">
       <Header />
       <main className="flex-grow container mx-auto px-4 py-8 md:px-8">
         <Outlet />
@@ -93,9 +91,9 @@ const Layout: React.FC = () => {
 
 const Header: React.FC = () => {
   return (
-    <header className="bg-primary text-white shadow-lg">
+    <header className="bg-blue-700 text-white shadow-md">
       <nav className="container mx-auto p-4 flex flex-col md:flex-row justify-between items-center">
-        <Link to="/" className="text-3xl font-bold mb-4 md:mb-0 hover:text-secondary transition-colors">
+        <Link to="/" className="text-3xl font-bold mb-4 md:mb-0 hover:text-blue-100 transition-colors">
           IMREA
         </Link>
         <div className="flex flex-wrap justify-center gap-x-6 gap-y-2">
@@ -120,7 +118,7 @@ const NavLink: React.FC<{ to: string; children: React.ReactNode }> = ({ to, chil
 
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-dark text-gray-300 text-center p-4 mt-8">
+    <footer className="bg-gray-900 text-gray-300 text-center p-4 mt-8">
       <p>&copy; {new Date().getFullYear()} IMREA - Sprint 4 (Front-End)</p>
     </footer>
   );
@@ -128,19 +126,19 @@ const Footer: React.FC = () => {
 
 const LoadingSpinner: React.FC = () => (
   <div className="flex justify-center items-center p-10">
-    <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+    <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
   </div>
 );
 
 const ErrorMessage: React.FC<{ message: string }> = ({ message }) => (
-  <div className="bg-danger/10 border border-danger text-danger px-5 py-3 rounded-lg my-6 font-medium">
+  <div className="bg-red-100 border border-red-400 text-red-700 px-5 py-3 rounded-lg my-6 font-medium">
     <strong className="font-bold">Erro: </strong>
     <span className="block sm:inline">{message}</span>
   </div>
 );
 
 const PageTitle: React.FC<{ title: string }> = ({ title }) => (
-  <h1 className="text-4xl font-extrabold text-dark mb-8 pb-4 border-b-4 border-primary/50">
+  <h1 className="text-3xl font-bold text-gray-900 mb-6 pb-3 border-b-2 border-gray-300">
     {title}
   </h1>
 );
@@ -150,10 +148,10 @@ const PageTitle: React.FC<{ title: string }> = ({ title }) => (
 const HomePage: React.FC = () => (
   <div className="bg-white p-8 rounded-xl shadow-lg">
     <PageTitle title="Sistema de Gestão IMREA" />
-    <p className="text-xl text-dark mb-6 leading-relaxed">
+    <p className="text-xl text-gray-800 mb-6 leading-relaxed">
       Bem-vindo ao sistema auxiliar de cadastro de pacientes, cuidadores e consultas do IMREA.
     </p>
-    <p className="text-grayish text-lg">
+    <p className="text-gray-600 text-lg">
       Utilize o menu de navegação acima para gerenciar os dados.
     </p>
   </div>
@@ -164,10 +162,10 @@ const HomePage: React.FC = () => (
 const PaginaNaoEncontrada: React.FC = () => (
   <div className="bg-white p-8 rounded-xl shadow-lg text-center">
     <PageTitle title="404 - Página Não Encontrada" />
-    <p className="text-xl text-dark mb-6 leading-relaxed">
+    <p className="text-xl text-gray-800 mb-6 leading-relaxed">
       A página que você está procurando não existe.
     </p>
-    <Link to="/" className="text-primary hover:text-secondary font-semibold text-lg underline-offset-4 hover:underline transition-colors">
+    <Link to="/" className="text-blue-600 hover:text-blue-800 font-semibold text-lg underline-offset-4 hover:underline transition-colors">
       Voltar para a Página Inicial
     </Link>
   </div>
@@ -223,7 +221,7 @@ const GestaoPacientes: React.FC = () => {
         <PageTitle title="Gestão de Pacientes" />
         <Link
           to="/pacientes/novo"
-          className="bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-secondary transition-colors shadow-md"
+          className="bg-blue-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors shadow-md text-base"
         >
           + Novo Paciente
         </Link>
@@ -233,7 +231,7 @@ const GestaoPacientes: React.FC = () => {
       {error && <ErrorMessage message={error} />}
       
       {!loading && !error && pacientes.length === 0 && (
-        <p className="text-grayish text-center text-lg mt-8">Nenhum paciente cadastrado.</p>
+        <p className="text-gray-600 text-center text-lg mt-8">Nenhum paciente cadastrado.</p>
       )}
 
       {pacientes.length > 0 && (
@@ -241,33 +239,33 @@ const GestaoPacientes: React.FC = () => {
           <table className="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg overflow-hidden">
             <thead className="bg-gray-50">
               <tr>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-grayish uppercase tracking-wider">ID</th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-grayish uppercase tracking-wider">Nome</th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-grayish uppercase tracking-wider">CPF</th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-grayish uppercase tracking-wider">Email</th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-grayish uppercase tracking-wider">Deficiência</th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-grayish uppercase tracking-wider">Ações</th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">ID</th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Nome</th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">CPF</th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Email</th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Deficiência</th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Ações</th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {pacientes.map((paciente) => (
-                <tr key={paciente.idPaciente} className="hover:bg-light transition-colors">
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-dark">{paciente.idPaciente}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-grayish">{paciente.nome}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-grayish">{paciente.cpf}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-grayish">{paciente.email}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-grayish">{paciente.tipoDeficiencia}</td>
+                <tr key={paciente.idPaciente} className="hover:bg-gray-50 transition-colors">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{paciente.idPaciente}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{paciente.nome}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{paciente.cpf}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{paciente.email}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{paciente.tipoDeficiencia}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <div className="flex gap-4">
                       <Link
                         to={`/pacientes/editar/${paciente.idPaciente}`}
-                        className="text-accent hover:text-yellow-600 transition-colors"
+                        className="text-yellow-500 hover:text-yellow-700 font-medium transition-colors"
                       >
                         Editar
                       </Link>
                       <button
                         onClick={() => handleDelete(paciente.idPaciente)}
-                        className="text-danger hover:text-red-700 transition-colors"
+                        className="text-red-600 hover:text-red-800 font-medium transition-colors"
                       >
                         Excluir
                       </button>
@@ -387,11 +385,11 @@ const PacienteForm: React.FC = () => {
         <FormInput label="Tipo de Deficiência" value={tipoDeficiencia} onChange={(e) => setTipoDeficiencia(e.target.value)} required />
         
         <div>
-          <label className="block text-base font-medium text-dark mb-2">Cuidador Principal</label>
+          <label className="block text-base font-medium text-gray-800 mb-2">Cuidador Principal</label>
           <select
             value={idCuidador}
             onChange={(e) => setIdCuidador(Number(e.target.value))}
-            className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-base bg-white"
+            className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-base bg-white"
             required
           >
             <option value="" disabled>Selecione um cuidador...</option>
@@ -404,13 +402,13 @@ const PacienteForm: React.FC = () => {
         </div>
 
         <div className="flex flex-col sm:flex-row justify-end gap-4 pt-6">
-          <Link to="/pacientes" className="bg-gray-200 text-grayish px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors text-center">
+          <Link to="/pacientes" className="bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors text-center">
             Cancelar
           </Link>
           <button
             type="submit"
             disabled={loading}
-            className="bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-secondary disabled:bg-gray-400 transition-colors shadow-md text-center"
+            className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 disabled:bg-gray-400 transition-colors shadow-md text-center"
           >
             {loading ? 'Salvando...' : 'Salvar Paciente'}
           </button>
@@ -471,7 +469,7 @@ const GestaoCuidadores: React.FC = () => {
         <PageTitle title="Gestão de Cuidadores" />
         <Link
           to="/cuidadores/novo"
-          className="bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-secondary transition-colors shadow-md"
+          className="bg-blue-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors shadow-md text-base"
         >
           + Novo Cuidador
         </Link>
@@ -481,7 +479,7 @@ const GestaoCuidadores: React.FC = () => {
       {error && <ErrorMessage message={error} />}
       
       {!loading && !error && cuidadores.length === 0 && (
-        <p className="text-grayish text-center text-lg mt-8">Nenhum cuidador cadastrado.</p>
+        <p className="text-gray-600 text-center text-lg mt-8">Nenhum cuidador cadastrado.</p>
       )}
 
       {cuidadores.length > 0 && (
@@ -489,31 +487,31 @@ const GestaoCuidadores: React.FC = () => {
           <table className="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg overflow-hidden">
             <thead className="bg-gray-50">
               <tr>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-grayish uppercase tracking-wider">ID</th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-grayish uppercase tracking-wider">Nome</th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-grayish uppercase tracking-wider">Telefone</th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-grayish uppercase tracking-wider">Email</th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-grayish uppercase tracking-wider">Ações</th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">ID</th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Nome</th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Telefone</th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Email</th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Ações</th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {cuidadores.map((cuidador) => (
-                <tr key={cuidador.idCuidador} className="hover:bg-light transition-colors">
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-dark">{cuidador.idCuidador}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-grayish">{cuidador.nome}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-grayish">{cuidador.telefone}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-grayish">{cuidador.email}</td>
+                <tr key={cuidador.idCuidador} className="hover:bg-gray-50 transition-colors">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{cuidador.idCuidador}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{cuidador.nome}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{cuidador.telefone}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{cuidador.email}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <div className="flex gap-4">
                       <Link
                         to={`/cuidadores/editar/${cuidador.idCuidador}`}
-                        className="text-accent hover:text-yellow-600 transition-colors"
+                        className="text-yellow-500 hover:text-yellow-700 font-medium transition-colors"
                       >
                         Editar
                       </Link>
                       <button
                         onClick={() => handleDelete(cuidador.idCuidador)}
-                        className="text-danger hover:text-red-700 transition-colors"
+                        className="text-red-600 hover:text-red-800 font-medium transition-colors"
                       >
                         Excluir
                       </button>
@@ -612,13 +610,13 @@ const CuidadorForm: React.FC = () => {
         <FormInput label="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
 
         <div className="flex flex-col sm:flex-row justify-end gap-4 pt-6">
-          <Link to="/cuidadores" className="bg-gray-200 text-grayish px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors text-center">
+          <Link to="/cuidadores" className="bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors text-center">
             Cancelar
           </Link>
           <button
             type="submit"
             disabled={loading}
-            className="bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-secondary disabled:bg-gray-400 transition-colors shadow-md text-center"
+            className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 disabled:bg-gray-400 transition-colors shadow-md text-center"
           >
             {loading ? 'Salvando...' : 'Salvar Cuidador'}
           </button>
@@ -678,7 +676,7 @@ const GestaoConsultas: React.FC = () => {
         <PageTitle title="Gestão de Consultas" />
         <Link
           to="/consultas/novo"
-          className="bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-secondary transition-colors shadow-md"
+          className="bg-blue-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors shadow-md text-base"
         >
           + Nova Consulta
         </Link>
@@ -688,7 +686,7 @@ const GestaoConsultas: React.FC = () => {
       {error && <ErrorMessage message={error} />}
       
       {!loading && !error && consultas.length === 0 && (
-        <p className="text-grayish text-center text-lg mt-8">Nenhuma consulta cadastrada.</p>
+        <p className="text-gray-600 text-center text-lg mt-8">Nenhuma consulta cadastrada.</p>
       )}
 
       {consultas.length > 0 && (
@@ -696,31 +694,31 @@ const GestaoConsultas: React.FC = () => {
           <table className="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg overflow-hidden">
             <thead className="bg-gray-50">
               <tr>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-grayish uppercase tracking-wider">ID</th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-grayish uppercase tracking-wider">Especialidade</th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-grayish uppercase tracking-wider">Data</th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-grayish uppercase tracking-wider">ID Paciente</th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-grayish uppercase tracking-wider">Ações</th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">ID</th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Especialidade</th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Data</th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">ID Paciente</th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Ações</th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {consultas.map((consulta) => (
-                <tr key={consulta.idConsulta} className="hover:bg-light transition-colors">
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-dark">{consulta.idConsulta}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-grayish">{consulta.especialidade}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-grayish">{new Date(consulta.dataConsulta + 'T00:00:00').toLocaleDateString()}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-grayish">{consulta.idPaciente}</td>
+                <tr key={consulta.idConsulta} className="hover:bg-gray-50 transition-colors">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{consulta.idConsulta}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{consulta.especialidade}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{new Date(consulta.dataConsulta + 'T00:00:00').toLocaleDateString()}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{consulta.idPaciente}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <div className="flex gap-4">
                       <Link
                         to={`/consultas/editar/${consulta.idConsulta}`}
-                        className="text-accent hover:text-yellow-600 transition-colors"
+                        className="text-yellow-500 hover:text-yellow-700 font-medium transition-colors"
                       >
                         Editar
                       </Link>
                       <button
                         onClick={() => handleDelete(consulta.idConsulta)}
-                        className="text-danger hover:text-red-700 transition-colors"
+                        className="text-red-600 hover:text-red-800 font-medium transition-colors"
                       >
                         Excluir
                       </button>
@@ -832,21 +830,21 @@ const ConsultaForm: React.FC = () => {
         <FormInput label="Data da Consulta" type="date" value={dataConsulta} onChange={(e) => setDataConsulta(e.target.value)} required />
         
         <div>
-          <label className="block text-base font-medium text-dark mb-2">Detalhes Adicionais</label>
+          <label className="block text-base font-medium text-gray-800 mb-2">Detalhes Adicionais</label>
           <textarea
             value={detalhes}
             onChange={(e) => setDetalhes(e.target.value)}
-            className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-base bg-white"
-            rows={4} // Aumentado para mais espaço
+            className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-base bg-white"
+            rows={4} 
           />
         </div>
         
         <div>
-          <label className="block text-base font-medium text-dark mb-2">Paciente Associado</label>
+          <label className="block text-base font-medium text-gray-800 mb-2">Paciente Associado</label>
           <select
             value={idPaciente}
             onChange={(e) => setIdPaciente(Number(e.target.value))}
-            className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-base bg-white"
+            className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-base bg-white"
             required
           >
             <option value="" disabled>Selecione um paciente...</option>
@@ -859,13 +857,13 @@ const ConsultaForm: React.FC = () => {
         </div>
 
         <div className="flex flex-col sm:flex-row justify-end gap-4 pt-6">
-          <Link to="/consultas" className="bg-gray-200 text-grayish px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors text-center">
+          <Link to="/consultas" className="bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors text-center">
             Cancelar
           </Link>
           <button
             type="submit"
             disabled={loading}
-            className="bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-secondary disabled:bg-gray-400 transition-colors shadow-md text-center"
+            className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 disabled:bg-gray-400 transition-colors shadow-md text-center"
           >
             {loading ? 'Salvando...' : 'Salvar Consulta'}
           </button>
@@ -888,13 +886,13 @@ interface FormInputProps {
 
 const FormInput: React.FC<FormInputProps> = ({ label, value, onChange, type = 'text', required = false }) => (
   <div>
-    <label className="block text-base font-medium text-dark mb-2">{label}</label>
+    <label className="block text-base font-medium text-gray-800 mb-2">{label}</label>
     <input
       type={type}
       value={value}
       onChange={onChange}
       required={required}
-      className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-base bg-white"
+      className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-base bg-white"
     />
   </div>
 );
