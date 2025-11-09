@@ -169,6 +169,18 @@ const HomePage: React.FC = () => (
     <p className="text-xl text-gray-800 mb-6 leading-relaxed">
       Bem-vindo ao sistema auxiliar de cadastro de pacientes, cuidadores e consultas do IMREA.
     </p>
+    <p className="text-xl text-gray-800 mb-6 leading-relaxed">
+      No contexto operacional do IMREA, um desafio recorrente é a fragmentação e, por vezes, a ausência de informações cruciais dos pacientes encaminhados, 
+      especialmente aqueles provenientes de Unidades Básicas de Saúde (UBS). Frequentemente, a equipe do Instituto precisa empreender um esforço considerável para consolidar 
+      ou até mesmo resgatar dados básicos, o que pode atrasar o início de tratamentos, dificultar o planejamento terapêutico e gerar retrabalho administrativo. 
+      Informações incompletas sobre o histórico do paciente, detalhes do cuidador ou mesmo contatos atualizados podem comprometer a eficácia da comunicação e do acompanhamento, impactando diretamente a qualidade do serviço prestado e a experiência do paciente.
+      Diante dessa problemática, e como um complemento fundamental à solução principal do chatbot, propõe-se o desenvolvimento de um sistema de cadastro interno.
+      Este sistema auxiliar tem como objetivo principal organizar e centralizar as informações dos pacientes que chegam ao IMREA, garantindo que dados essenciais 
+      sejam registrados de forma padronizada e acessível. Ao permitir que a equipe do IMREA cadastre os pacientes de maneira estruturada incluindo dados pessoais, 
+      tipo de deficiência, informações do cuidador, especialidade médica para a qual está sendo encaminhado e detalhes da primeira consulta, minimizamos a dependência 
+      de registros externos incompletos.
+
+    </p>
     <p className="text-gray-600 text-lg">
       Utilize o menu de navegação acima para gerenciar os dados.
     </p>
@@ -933,28 +945,20 @@ const QuemSomosPage: React.FC = () => {
 const FaqPage: React.FC = () => {
   const faqs = [
     {
-      question: "O paciente precisa baixar algum aplicativo novo para usar o chatbot?",
-      answer: "Não. Toda a comunicação acontece diretamente pelo WhatsApp, que já é amplamente utilizado pelo público-alvo. Isso garante simplicidade, acessibilidade e evita barreiras tecnológicas."
+      question: " O que é este sistema e qual o seu objetivo?",
+      answer: "R: Este é um Sistema de Cadastro Estruturado, desenvolvido como um projeto para o IMREA. O seu objetivo principal é centralizar e organizar as informações de Pacientes, Cuidadores e Consultas, garantindo que a equipe tenha dados confiáveis e padronizados, em vez de depender de registos externos (como os de UBSs) que por vezes chegam incompletos."
     },
     {
-      question: "Quem pode usar o chatbot?",
-      answer: "O chatbot é voltado para pacientes atendidos pelo IMREA, pessoas com deficiência e em situação de vulnerabilidade, além de seus cuidadores."
+      question: "Estou tentando cadastrar um 'Novo Paciente', mas não consigo. Por quê?",
+      answer: "Para cadastrar um novo paciente, o 'Cuidador Principal' dele já deve estar cadastrado. Se o cuidador ainda não existe, vá primeiro à seção 'Cuidadores', adicione o cuidador, e só então cadastre o paciente."
     },
     {
-      question: "O cuidador também recebe mensagens do chatbot?",
-      answer: "Sim. O chatbot envia lembretes e instruções tanto para o paciente quanto para o cuidador cadastrado, garantindo que todos estejam informados."
+      question: "Por que não consigo excluir um paciente ou cuidador?",
+      answer: "O sistema protege a integridade dos dados. Você não pode excluir um 'Cuidador' se ele estiver vinculado a um paciente, nem excluir um 'Paciente' se ele possuir consultas agendadas. É preciso remover as associações (ex: cancelar as consultas) antes de excluir o registro principal."
     },
     {
-      question: "O chatbot funciona fora do horário comercial?",
-      answer: "Sim. Ele está disponível 24 horas por dia para enviar lembretes, responder dúvidas frequentes e receber mensagens dos pacientes a qualquer momento."
-    },
-    {
-      question: "O chatbot substitui o contato humano com a equipe do IMREA?",
-      answer: "Não. O chatbot automatiza tarefas simples e repetitivas, mas sempre que necessário, ele direciona o paciente ou cuidador para atendimento humano."
-    },
-    {
-      question: "E se eu tiver um problema com meu tratamento, posso avisar pelo chatbot?",
-      answer: "Sim. Você pode enviar mensagens relatando desconfortos ou dificuldades, e o chatbot encaminha automaticamente essas informações para a equipe do IMREA."
+      question: "Este sistema envia lembretes de consulta para os pacientes?",
+      answer: "Não. Este sistema é focado apenas no cadastro e na organização interna dos dados para a equipe do IMREA. A comunicação com o paciente e o envio de lembretes são gerenciados por outra ferramenta (o chatbot)."
     }
   ];
 
@@ -992,12 +996,11 @@ const ContatoPage: React.FC = () => {
       setLoading(false);
       setSuccess("Mensagem enviada com sucesso! Entraremos em contato em breve.");
       
-      // Limpa o formulário
       setNome('');
       setEmail('');
       setTelefone('');
       setMensagem('');
-    }, 1000); // Simula 1 segundo de espera
+    }, 1000); 
   };
 
   return (
@@ -1047,7 +1050,7 @@ interface FormInputProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   type?: string;
   required?: boolean;
-  placeholder?: string; // Adicionado placeholder
+  placeholder?: string; 
 }
 
 const FormInput: React.FC<FormInputProps> = ({ label, value, onChange, type = 'text', required = false, placeholder = '' }) => (
