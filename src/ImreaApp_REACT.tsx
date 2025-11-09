@@ -68,6 +68,11 @@ export default function App() {
           <Route path="consultas/novo" element={<ConsultaForm />} />
           <Route path="consultas/editar/:id" element={<ConsultaForm />} /> 
 
+          {/* NOVAS ROTAS ADICIONADAS */}
+          <Route path="quem-somos" element={<QuemSomosPage />} />
+          <Route path="faq" element={<FaqPage />} />
+          <Route path="contato" element={<ContatoPage />} />
+
           <Route path="*" element={<PaginaNaoEncontrada />} />
         </Route>
       </Routes>
@@ -101,6 +106,10 @@ const Header: React.FC = () => {
           <NavLink to="/pacientes">Pacientes</NavLink>
           <NavLink to="/cuidadores">Cuidadores</NavLink>
           <NavLink to="/consultas">Consultas</NavLink>
+          {/* NOVOS LINKS ADICIONADOS */}
+          <NavLink to="/quem-somos">Quem Somos</NavLink>
+          <NavLink to="/faq">FAQ</NavLink>
+          <NavLink to="/contato">Contato</NavLink>
         </div>
       </nav>
     </header>
@@ -136,6 +145,15 @@ const ErrorMessage: React.FC<{ message: string }> = ({ message }) => (
     <span className="block sm:inline">{message}</span>
   </div>
 );
+
+// NOVO COMPONENTE DE SUCESSO (PARA O FORMULÁRIO DE CONTATO)
+const SuccessMessage: React.FC<{ message: string }> = ({ message }) => (
+  <div className="bg-green-100 border border-green-400 text-green-700 px-5 py-3 rounded-lg my-6 font-medium">
+    <strong className="font-bold">Sucesso: </strong>
+    <span className="block sm:inline">{message}</span>
+  </div>
+);
+
 
 const PageTitle: React.FC<{ title: string }> = ({ title }) => (
   <h1 className="text-3xl font-bold text-gray-900 mb-6 pb-3 border-b-2 border-gray-300">
@@ -873,6 +891,153 @@ const ConsultaForm: React.FC = () => {
   );
 };
 
+// --- PÁGINA QUEM SOMOS ---
+
+const QuemSomosPage: React.FC = () => {
+  return (
+    <div className="bg-white p-8 rounded-xl shadow-lg">
+      <PageTitle title="Quem Somos" />
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+        <ProfileCard
+          nome="Pedro Mariutti"
+          rm="RM 75999"
+          linkedin="https://www.linkedin.com/in/pedromariutti/"
+          github="https://github.com/pedromariutti" 
+          imagemSrc="/img/perfilPedro.png"       
+          />
+
+        <ProfileCard
+          nome="Henrique Orellana"
+          rm="RM 565608"
+          linkedin="https://www.linkedin.com/in/henriqueorellana/"
+          github="https://github.com/Guren156" 
+          imagemSrc="/img/perfilHenrique.png"      
+          />
+
+        <ProfileCard
+          nome="Rafael Carvalho"
+          rm="RM 563413"
+          linkedin="https://www.linkedin.com/in/rafael-carvalho-meireles-0a3a87130/"
+          github="http://github.com/rafaelcmeireles" 
+          imagemSrc="/img/perfilLeo.png"     
+          />
+        
+      </div>
+    </div>
+  );
+};
+
+// --- PÁGINA FAQ ---
+
+const FaqPage: React.FC = () => {
+  const faqs = [
+    {
+      question: "O paciente precisa baixar algum aplicativo novo para usar o chatbot?",
+      answer: "Não. Toda a comunicação acontece diretamente pelo WhatsApp, que já é amplamente utilizado pelo público-alvo. Isso garante simplicidade, acessibilidade e evita barreiras tecnológicas."
+    },
+    {
+      question: "Quem pode usar o chatbot?",
+      answer: "O chatbot é voltado para pacientes atendidos pelo IMREA, pessoas com deficiência e em situação de vulnerabilidade, além de seus cuidadores."
+    },
+    {
+      question: "O cuidador também recebe mensagens do chatbot?",
+      answer: "Sim. O chatbot envia lembretes e instruções tanto para o paciente quanto para o cuidador cadastrado, garantindo que todos estejam informados."
+    },
+    {
+      question: "O chatbot funciona fora do horário comercial?",
+      answer: "Sim. Ele está disponível 24 horas por dia para enviar lembretes, responder dúvidas frequentes e receber mensagens dos pacientes a qualquer momento."
+    },
+    {
+      question: "O chatbot substitui o contato humano com a equipe do IMREA?",
+      answer: "Não. O chatbot automatiza tarefas simples e repetitivas, mas sempre que necessário, ele direciona o paciente ou cuidador para atendimento humano."
+    },
+    {
+      question: "E se eu tiver um problema com meu tratamento, posso avisar pelo chatbot?",
+      answer: "Sim. Você pode enviar mensagens relatando desconfortos ou dificuldades, e o chatbot encaminha automaticamente essas informações para a equipe do IMREA."
+    }
+  ];
+
+  return (
+    <div className="bg-white p-8 rounded-xl shadow-lg max-w-4xl mx-auto">
+      <PageTitle title="Perguntas Frequentes (FAQ)" />
+      <div className="space-y-4">
+        {faqs.map((faq, index) => (
+          <FaqItem key={index} question={faq.question} answer={faq.answer} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+// --- PÁGINA CONTATO ---
+
+const ContatoPage: React.FC = () => {
+  const [nome, setNome] = useState('');
+  const [email, setEmail] = useState('');
+  const [telefone, setTelefone] = useState('');
+  const [mensagem, setMensagem] = useState('');
+  
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+    setSuccess(null);
+
+    setTimeout(() => {
+      setLoading(false);
+      setSuccess("Mensagem enviada com sucesso! Entraremos em contato em breve.");
+      
+      // Limpa o formulário
+      setNome('');
+      setEmail('');
+      setTelefone('');
+      setMensagem('');
+    }, 1000); // Simula 1 segundo de espera
+  };
+
+  return (
+    <div className="bg-white p-8 rounded-xl shadow-lg max-w-3xl mx-auto">
+      <PageTitle title="Formulário de Contato" />
+      
+      <form onSubmit={handleSubmit} className="space-y-6">
+        {error && <ErrorMessage message={error} />}
+        {success && <SuccessMessage message={success} />}
+
+        <FormInput label="Nome Completo" value={nome} onChange={(e) => setNome(e.target.value)} required placeholder="Ex: Seu Nome" />
+        <FormInput label="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="Ex: email@email.com" />
+        <FormInput label="Telefone" type="tel" value={telefone} onChange={(e) => setTelefone(e.target.value)} required placeholder="Ex: 11 987654321" />
+
+        <div>
+          <label className="block text-base font-medium text-gray-800 mb-2">Mensagem</label>
+          <textarea
+            value={mensagem}
+            onChange={(e) => setMensagem(e.target.value)}
+            required
+            placeholder="Digite sua mensagem aqui..."
+            className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-base bg-white"
+            rows={5}
+          />
+        </div>
+
+        <div className="flex justify-end pt-6">
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full sm:w-auto bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 disabled:bg-gray-400 transition-colors shadow-md text-center"
+          >
+            {loading ? 'Enviando...' : 'Enviar Mensagem'}
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+};
+
 
 // --- COMPONENTES AUXILIARES ---
 
@@ -882,9 +1047,10 @@ interface FormInputProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   type?: string;
   required?: boolean;
+  placeholder?: string; // Adicionado placeholder
 }
 
-const FormInput: React.FC<FormInputProps> = ({ label, value, onChange, type = 'text', required = false }) => (
+const FormInput: React.FC<FormInputProps> = ({ label, value, onChange, type = 'text', required = false, placeholder = '' }) => (
   <div>
     <label className="block text-base font-medium text-gray-800 mb-2">{label}</label>
     <input
@@ -892,7 +1058,78 @@ const FormInput: React.FC<FormInputProps> = ({ label, value, onChange, type = 't
       value={value}
       onChange={onChange}
       required={required}
+      placeholder={placeholder}
       className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-base bg-white"
     />
   </div>
 );
+
+// --- NOVOS COMPONENTES AUXILIARES ---
+
+// Card para a página "Quem Somos"
+interface ProfileCardProps {
+  nome: string;
+  rm: string;
+  linkedin: string;
+  github: string;
+  imagemSrc: string;
+}
+
+const ProfileCard: React.FC<ProfileCardProps> = ({ nome, rm, linkedin, github,imagemSrc }) => (
+  <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 flex flex-col items-center shadow-md text-center transition-transform transform hover:scale-105">
+   <img
+      src={imagemSrc}
+      alt={`Foto de ${nome}`}
+      className="w-40 h-40 bg-gray-300 rounded-full mb-4 object-cover" 
+    />
+    <h3 className="text-xl font-bold text-gray-900">{nome}</h3>
+    <p className="text-gray-600 mb-4">{rm}</p>
+    <div className="flex flex-col gap-2 w-full">
+      <a
+        href={linkedin}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-blue-600 hover:text-blue-800 font-medium hover:underline"
+      >
+        LinkedIn
+      </a>
+      <a
+        href={github}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-gray-800 hover:text-black font-medium hover:underline"
+      >
+        Github
+      </a>
+    </div>
+  </div>
+);
+
+// Item do Acordeão para a página "FAQ"
+interface FaqItemProps {
+  question: string;
+  answer: string;
+}
+
+const FaqItem: React.FC<FaqItemProps> = ({ question, answer }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="border border-gray-200 rounded-lg overflow-hidden">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="flex justify-between items-center w-full p-5 text-left bg-gray-50 hover:bg-gray-100 focus:outline-none"
+      >
+        <span className="text-base font-semibold text-gray-900">{question}</span>
+        <span className="text-xl font-bold text-blue-600">
+          {isOpen ? '−' : '+'}
+        </span>
+      </button>
+      {isOpen && (
+        <div className="p-5 border-t border-gray-200">
+          <p className="text-gray-700 leading-relaxed">{answer}</p>
+        </div>
+      )}
+    </div>
+  );
+};
